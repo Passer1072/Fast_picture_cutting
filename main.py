@@ -8,8 +8,9 @@ start_time = time.time()
 directory_path = 'Person_photos'  # 这里填入需要剪切的图片集文件夹名称或绝对路径
 output_dir = 'output'  # 输出目录名称，这里无需修改
 model = YOLO('yolov8x.pt')  # 所调用的模型文件，无需修改。
+Target_ID = 0  # 在这里设置检测/裁切目标，根据自己的模型进行修改,这里只能设置单个目标，需要识别多个目标需要修改下面的class_ids内容
 counter = 1  # 计数器命名,无需修改
-counter_images = 0
+counter_images = 0  # 计数器命名,无需修改
 
 # 检查output目录是否存在，如果不存在则创建
 if not os.path.exists(output_dir):
@@ -30,8 +31,8 @@ for filename in os.listdir(directory_path):  # 检测文件夹内容
 
         # 进行推理
         # 设置只检测类别ID为0的对象，0代表'Person'
-        class_ids = [0]  # 仅检测'Person'(人)
-        results = model.predict(source, save=True, imgsz=320, conf=0.5, classes=class_ids)  # YOLO官方快速推理方法
+        class_ids = [Target_ID]  # 仅检测'Person'(人) ####
+        results = model.predict(source, save=True, imgsz=320, conf=0.5, classes=class_ids)  # YOLO官方快捷推理方法
 
         # 查看结果
         for r in results:
